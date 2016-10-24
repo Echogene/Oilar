@@ -92,7 +92,7 @@ Proof.
 Qed.
 
 (* The identity [e] is unique. *)
-Theorem unique_id : ∀ a, a·a = a → a = e.
+Theorem unique_identity : ∀ a, a·a = a → a = e.
 Proof.
   intros a.
   intros aa_is_a.
@@ -113,10 +113,10 @@ Qed.
 Notation "'multiply' d 'on' 'the' 'left' 'by' c" := (left_multiply_both_sides _ _ c d) (at level 100).
 
 (* [a⁻¹] is also the left-inverse of [a]. *)
-Theorem inv_l : ∀ a, a⁻¹·a = e.
+Theorem left_inverse : ∀ a, a⁻¹·a = e.
 Proof.
   intros a.
-  refine (unique_id (a⁻¹·a) _).
+  refine (unique_identity (a⁻¹·a) _).
     rewrite <- associativity.
     refine (multiply _ on the right by a).
       rewrite associativity.
@@ -126,7 +126,7 @@ Proof.
 Qed.
 
 (* [e] is also the left-identity. *)
-Theorem id_l : ∀ a, e·a = a.
+Theorem left_identity : ∀ a, e·a = a.
 Proof.
   intros a.
   refine (cancel _ on the right by a⁻¹).
@@ -137,11 +137,11 @@ Proof.
 Qed.
 
 (* The inverse anti-distributes over multiplication. *)
-Theorem inv_distr : ∀ a b, (a·b)⁻¹ = b⁻¹·a⁻¹.
+Theorem inverse_anti_distribution : ∀ a b, (a·b)⁻¹ = b⁻¹·a⁻¹.
 Proof.
   intros a b.
   refine (cancel _ on the right by a·b).
-    rewrite inv_l.
+    rewrite left_inverse.
     rewrite <- associativity.
     refine (cancel _ on the right by b⁻¹).
       rewrite associativity.
@@ -149,27 +149,27 @@ Proof.
       rewrite associativity.
       rewrite right_identity.
       rewrite associativity.
-      rewrite inv_l.
+      rewrite left_inverse.
       rewrite right_identity.
-      rewrite id_l.
+      rewrite left_identity.
       reflexivity.
 Qed.
 
-(* The inverse of the inverse is the original element. *)
-Theorem double_inv : ∀ a, (a⁻¹)⁻¹ = a.
+(* The inverse of the inverse is the original element, or inversion is an involution. *)
+Theorem inverse_involution : ∀ a, (a⁻¹)⁻¹ = a.
 Proof.
   intros a.
   refine (cancel _ on the right by a⁻¹).
-    rewrite inv_l.
+    rewrite left_inverse.
     rewrite right_inverse.
     reflexivity.
 Qed.
 
 (* The identity element is self-inverse. *)
-Theorem id_inv : e⁻¹ = e.
+Theorem identity_inverse : e⁻¹ = e.
 Proof.
   refine (cancel _ on the right by e).
-    rewrite inv_l.
+    rewrite left_inverse.
     rewrite right_identity.
     reflexivity.
 Qed.
