@@ -16,7 +16,7 @@ Parameter α : G → S → S.
 Notation "s ← g" := (α g s) (at level 50, left associativity).
 
 (* Composition works. *)
-(* Equivalent to (α g·h s) = (α h (a g s)). *)
+(* Equivalent to (α g·h s) = (α h (α g s)). *)
 Axiom act_comp : ∀ s g h, s←(g·h) = s←g←h.
 
 (* The identity element does nothing. *)
