@@ -1,7 +1,5 @@
-Add LoadPath "~/.lib/Coq/GroupTheory".
-
 Require Import Utf8.
-Require Import GroupDefinition.
+Require Import GroupTheory.GroupDefinition.
 
 Module GroupAction (G : Group).
 Import G.
@@ -32,6 +30,6 @@ Proof.
   rewrite action_as_function.
   (* I have no idea what tactics to use here. *)
   admit.
-Qed.
+Admitted.
 
 End GroupAction.
