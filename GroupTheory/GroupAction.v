@@ -11,6 +11,6 @@ Class GroupAction
     (S: Set)
     (α: GroupActionOp G S)
 : Prop := {
-  ga_composition : ∀ g h s, α (g·h) s = α g (α h s);
-  ga_identity : ∀ s, α e s = s
+  ga_composition : ∀ g h s, (g·h)↷s = g↷h↷s;
+  ga_identity : ∀ s, e↷s = s
 }.
