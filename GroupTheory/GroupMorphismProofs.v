@@ -4,7 +4,7 @@ Require Import GroupMorphism.
 
 Generalizable Variables G H.
 
-Definition identity `{A : Type} : A -> A := fun x => x.
+Definition identity `{A : Type} : A → A := λ x, x.
 
 Proposition identity_changes_nothing `{A : Type} :
   ∀ a : A, identity a = a.
@@ -13,7 +13,7 @@ Proof.
   trivial.
 Qed.
 
-Instance identity_is_homomorphism `{Group G} : GroupIsomorphism G G identity.
+Instance identity_is_isomorphism `{Group G} : GroupIsomorphism G G identity.
 Proof.
   repeat split.
   intros a b.
@@ -25,7 +25,7 @@ Proof.
   reflexivity.
 Qed.
 
-Definition inverse `{Group G} : G -> G := fun g => g⁻¹.
+Definition inverse `{Group G} : G → G := λ g, g⁻¹.
 
 Proposition inverse_maps_to_inverse `{Group G} :
   ∀ g, inverse g = g⁻¹.

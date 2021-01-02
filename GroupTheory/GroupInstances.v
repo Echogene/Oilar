@@ -71,24 +71,24 @@ Qed.
 (* The direct product of two groups is a group. *)
 
 Definition GroupProduct_op
-    {G : Set} {g_op : SemiGroupOp G} {g_i : GroupInv G} {g_e: GroupId G} `{@Group G g_op g_i g_e}
-    {H : Set} {h_op : SemiGroupOp H} {h_i : GroupInv H} {h_e: GroupId H} `{@Group H h_op h_i h_e}
+    {G : Set} {g_op : SemiGroupOp G} {g_i : GroupInv G} {g_e: G} `{@Group G g_op g_i g_e}
+    {H : Set} {h_op : SemiGroupOp H} {h_i : GroupInv H} {h_e: H} `{@Group H h_op h_i h_e}
     : SemiGroupOp (prod G H) := fun (a: prod G H) (b: prod G H) =>
   match a, b with
   | (x, y), (s, t) => (g_op x s, h_op y t)
   end.
 
 Definition GroupProduct_i
-    {G : Set} {g_op : SemiGroupOp G} {g_i : GroupInv G} {g_e: GroupId G} `{@Group G g_op g_i g_e}
-    {H : Set} {h_op : SemiGroupOp H} {h_i : GroupInv H} {h_e: GroupId H} `{@Group H h_op h_i h_e}
+    {G : Set} {g_op : SemiGroupOp G} {g_i : GroupInv G} {g_e: G} `{@Group G g_op g_i g_e}
+    {H : Set} {h_op : SemiGroupOp H} {h_i : GroupInv H} {h_e: H} `{@Group H h_op h_i h_e}
     : GroupInv (prod G H) := fun (a: prod G H) =>
   match a with
   | (x, y) => (g_i x, h_i y)
   end.
 
 Instance GroupProduct
-    {G : Set} {g_op : SemiGroupOp G} {g_i : GroupInv G} {g_e: GroupId G} (P : @Group G g_op g_i g_e)
-    {H : Set} {h_op : SemiGroupOp H} {h_i : GroupInv H} {h_e: GroupId H} (Q : @Group H h_op h_i h_e)
+    {G : Set} {g_op : SemiGroupOp G} {g_i : GroupInv G} {g_e: G} (P : @Group G g_op g_i g_e)
+    {H : Set} {h_op : SemiGroupOp H} {h_i : GroupInv H} {h_e: H} (Q : @Group H h_op h_i h_e)
     : (@Group
         (prod G H)
         (@GroupProduct_op G g_op g_i g_e P H h_op h_i h_e Q)
@@ -102,23 +102,30 @@ Proof.
   destruct a.
   destruct b.
   destruct c.
-  repeat rewrite sg_assoc.
+  repeat rewrite (@sg_assoc G g_op _).
+  repeat rewrite (@sg_assoc H h_op _).
   reflexivity.
   intros a.
   compute.
   destruct a.
-  repeat rewrite g_right_identity.
+  rewrite (@g_right_identity G g_op _).
+  rewrite (@g_right_identity H h_op _).
   reflexivity.
+  assumption.
+  assumption.
   intros a.
   compute.
   destruct a.
-  repeat rewrite g_right_inverse.
+  rewrite (@g_right_inverse G g_op g_i _ _).
+  rewrite (@g_right_inverse H h_op h_i _ _).
   reflexivity.
 Qed.
 
+Print ag_commutative.
+
 Instance AbelianGroupProduct
-    {G : Set} {g_op : SemiGroupOp G} {g_i : GroupInv G} {g_e: GroupId G} (P : @AbelianGroup G g_op g_i g_e)
-    {H : Set} {h_op : SemiGroupOp H} {h_i : GroupInv H} {h_e: GroupId H} (Q : @AbelianGroup H h_op h_i h_e)
+    {G : Set} {g_op : SemiGroupOp G} {g_i : GroupInv G} {g_e: G} (P : @AbelianGroup G g_op g_i g_e)
+    {H : Set} {h_op : SemiGroupOp H} {h_i : GroupInv H} {h_e: H} (Q : @AbelianGroup H h_op h_i h_e)
     : (@AbelianGroup
         (prod G H)
         (@GroupProduct_op G g_op g_i g_e (AsGroup P) H h_op h_i h_e (AsGroup Q))
@@ -132,27 +139,32 @@ Proof.
   destruct a.
   destruct b.
   destruct c.
-  repeat rewrite sg_assoc.
+  repeat rewrite (@sg_assoc G g_op _).
+  repeat rewrite (@sg_assoc H h_op _).
   reflexivity.
   intros a.
   compute.
   destruct a.
-  repeat rewrite g_right_identity.
+  rewrite (@g_right_identity G g_op _).
+  rewrite (@g_right_identity H h_op _).
   reflexivity.
+  exact abelian_groups_are_groups.
+  exact abelian_groups_are_groups.
   intros a.
   compute.
   destruct a.
-  repeat rewrite g_right_inverse.
+  rewrite (@g_right_inverse G g_op g_i _ _).
+  rewrite (@g_right_inverse H h_op h_i _ _).
   reflexivity.
   intros a b.
   compute.
   destruct a.
   destruct b.
-  rewrite ag_commutative.
-  replace (h_op h h0) with (h_op h0 h).
+  rewrite (@ag_commutative G g_op g_i g_e).
+  rewrite (@ag_commutative H h_op h_i h_e).
   reflexivity.
-  rewrite ag_commutative.
-  reflexivity.
+  assumption.
+  assumption.
 Qed.
 
 Notation "A × B" := (AbelianGroupProduct A B) (at level 30, right associativity).
