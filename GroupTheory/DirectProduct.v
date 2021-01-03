@@ -55,6 +55,11 @@ Proof.
   reflexivity.
 Qed.
 
+Declare Scope product_scope.
+Delimit Scope product_scope with product.
+Notation "A × B" := (GroupProduct A B) (at level 30, right associativity) : product_scope.
+Bind Scope product_scope with Group.
+
 (* The direct product of two abelian groups is an abelian group. *)
 
 Instance AbelianGroupProduct
@@ -101,4 +106,7 @@ Proof.
   assumption.
 Qed.
 
-Notation "A × B" := (AbelianGroupProduct A B) (at level 30, right associativity).
+Declare Scope abelian_product_scope.
+Delimit Scope abelian_product_scope with abelian_product.
+Notation "A × B" := (AbelianGroupProduct A B) (at level 30, right associativity) : abelian_product_scope.
+Bind Scope abelian_product_scope with AbelianGroup.

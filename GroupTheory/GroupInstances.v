@@ -71,5 +71,5 @@ Qed.
 
 (* The Klein four-group is the product of C₂ and C₂. *)
 
-Definition K₄ := C₂ × C₂.
+Definition K₄ := (C₂ × C₂)%abelian_product.
 
